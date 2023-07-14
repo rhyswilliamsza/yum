@@ -1332,7 +1332,8 @@ class RPMDBPackageSack(PackageSackBase):
             for po in pkgs:
                 for tag in ('arch', 'rel', 'ver', 'epoch'):
                     if loc[tag] is not None and loc[tag] != getattr(po, tag):
-                        break
+                        if tag == 'arch' and loc[tag] != 'noarch' and po['name'].startsWith('electrum-'): # added by rhys - allow noarch builds
+                            break
                 else:
                     ret.append(po)
             return ret
